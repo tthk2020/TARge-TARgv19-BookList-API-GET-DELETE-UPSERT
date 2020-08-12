@@ -18,10 +18,10 @@
 
     <div class="col-12 border p-3 mt-3">
         <form method="post">
-            @if(Model.Books.Count() >0 )
+            @if (Model.Books.Count() > 0)
             {
                 <table class="table table-striped border">
-                   
+
                     <tr class="table-secondary">
                         <th>
                             <label asp-for="Books.FirstOrDefault().Title"></label>
@@ -32,10 +32,11 @@
                         <th>
                             <label asp-for="Books.FirstOrDefault().ISBN"></label>
                         </th>
-                       <th></th>
+                        <th></th>
                     </tr>
 
-                    @foreach(var book in Model.Books) { 
+                    @foreach (var book in Model.Books)
+                    {
                         <tr>
                             <td>
                                 @Html.DisplayFor(m => book.Title)
@@ -51,10 +52,37 @@
                         </tr>
                     }
                 </table>
-            } else
+            }
+            else
             {
                 <p>No books available</p>
             }
         </form>
     </div>
+
+    <div class="col-12" style="text-align:center">
+        <br />
+        <span class="h3 text-info">OR</span>
+        <br /><br />
+    </div>
+
+    <div class="col-12 border p-3">
+
+        <table id="DT_load" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
 </div>
+
+@section Scripts {
+    <script src="~/js/bookList.js"></script>
+}
+

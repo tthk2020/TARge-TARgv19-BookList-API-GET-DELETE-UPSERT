@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookListProject.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookListProject.Controllers
 {
@@ -20,10 +21,28 @@ namespace BookListProject.Controllers
 
         //implementing HTTP GET
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> GetAll()
         {
             //returning data from the db in JSON format
-            return Json(new { data = _db.Book.ToList() });
+            return Json(new { data = await _db.Book.ToListAsync() });
         }
+
+        //implementing HTTP DELETE
+        [HttpDelete]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var bookFromDb = await _db.Book.FirstOrDefaultAsync(u => u.Id == id);
+            if(bookFromDb == null)
+            {
+                return Json(new { success = false, message = "Error, failed to delete an item" });
+            }
+
+            _db.Book.Remove(bookFromDb);
+            await _db.SaveChangesAsync();
+            return Json(new { success = true, message = "Item successfully deleted" });
+
+        }
+
     }
 }
